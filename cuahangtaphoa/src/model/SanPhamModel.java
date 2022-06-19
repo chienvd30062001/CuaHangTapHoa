@@ -6,6 +6,13 @@ public class SanPhamModel {
 	private int soLuong;
 	private int gia;
 	
+	public SanPhamModel() {
+		super();
+		this.maSP = "";
+		this.tenSP = "";
+		this.soLuong = 0;
+		this.gia = 0;
+	}
 	public SanPhamModel(String maSP, String tenSP, int soLuong, int gia) {
 		super();
 		this.maSP = maSP;

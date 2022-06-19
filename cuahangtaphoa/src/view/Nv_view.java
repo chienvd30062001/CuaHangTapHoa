@@ -20,15 +20,20 @@ import javax.swing.table.DefaultTableModel;
 
 import model.SanPhamModel;
 import DAO.DBConnect;
+import DAO.SanPhamDAO;
 import DAO.SanPhamDAO_Impl;
 
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Nv_view extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField jtfTimKiem;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
@@ -45,10 +50,10 @@ public class Nv_view extends JFrame {
 	private JScrollPane scrollPane_1;
 	private static JTable table_1;
 	private JLabel lblMasp;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
+	private JTextField jtfMaSP;
+	private JTextField jtfTenSP;
+	private JTextField jtfSoLuong;
+	private JTextField jtfGia;
 
 	/**
 	 * Launch the application.
@@ -69,22 +74,42 @@ public class Nv_view extends JFrame {
 	 * Create the frame.
 	 */
 	public Nv_view() {
+		
+		SanPhamDAO_Impl spDAO = new SanPhamDAO_Impl();
+		
 		setTitle("CuaHangTapHoa");
 		setSize(1036, 558);
 		getContentPane().setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(20, 41, 410, 25);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		jtfTimKiem = new JTextField();
+		jtfTimKiem.setBounds(20, 41, 466, 25);
+		getContentPane().add(jtfTimKiem);
+		jtfTimKiem.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Tim Kiem");
-		btnNewButton.setBounds(440, 40, 94, 26);
-		getContentPane().add(btnNewButton);
+		JButton btnTimKiem = new JButton("Tim Kiem");
+		btnTimKiem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SanPhamModel sp= new SanPhamModel();
+				sp.setTenSP(jtfTimKiem.getText());
+				showData(spDAO.getByName(sp));
+			}
+		});
+		btnTimKiem.setBounds(508, 40, 130, 26);
+		getContentPane().add(btnTimKiem);
 		
-		JButton btnNewButton_1 = new JButton("Lam Moi");
-		btnNewButton_1.setBounds(544, 40, 94, 26);
-		getContentPane().add(btnNewButton_1);
+		JButton btnLamMoi = new JButton("Lam Moi");
+		btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnLamMoi.setBackground(Color.LIGHT_GRAY);
+		btnLamMoi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jtfMaSP.setText("");
+				jtfTenSP.setText("");
+				jtfSoLuong.setText("");
+				jtfGia.setText("");
+			}
+		});
+		btnLamMoi.setBounds(565, 474, 85, 21);
+		getContentPane().add(btnLamMoi);
 		
 		textField_1 = new JTextField();
 		textField_1.setBounds(846, 312, 153, 19);
@@ -114,13 +139,13 @@ public class Nv_view extends JFrame {
 		btnNewButton_2 = new JButton("Thanh to\u00E1n");
 		btnNewButton_2.setBackground(new Color(0, 255, 255));
 		btnNewButton_2.setForeground(Color.BLACK);
-		btnNewButton_2.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton_2.setBounds(819, 474, 85, 21);
 		getContentPane().add(btnNewButton_2);
 		
 		btnNewButton_3 = new JButton("Xu\u1EA5t");
 		btnNewButton_3.setBackground(Color.GREEN);
-		btnNewButton_3.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton_3.setBounds(914, 474, 85, 21);
 		getContentPane().add(btnNewButton_3);
 		
@@ -136,6 +161,7 @@ public class Nv_view extends JFrame {
 		getContentPane().add(scrollPane);
 		
 		table = new JTable();
+		table.setEnabled(false);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null, null, null},
@@ -232,25 +258,25 @@ public class Nv_view extends JFrame {
 		lblMasp.setBounds(40, 400, 85, 15);
 		getContentPane().add(lblMasp);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(40, 427, 130, 20);
-		getContentPane().add(textField_6);
+		jtfMaSP = new JTextField();
+		jtfMaSP.setColumns(10);
+		jtfMaSP.setBounds(40, 427, 130, 20);
+		getContentPane().add(jtfMaSP);
 		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		textField_7.setBounds(201, 427, 130, 20);
-		getContentPane().add(textField_7);
+		jtfTenSP = new JTextField();
+		jtfTenSP.setColumns(10);
+		jtfTenSP.setBounds(201, 427, 130, 20);
+		getContentPane().add(jtfTenSP);
 		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		textField_8.setBounds(356, 426, 130, 20);
-		getContentPane().add(textField_8);
+		jtfSoLuong = new JTextField();
+		jtfSoLuong.setColumns(10);
+		jtfSoLuong.setBounds(356, 426, 130, 20);
+		getContentPane().add(jtfSoLuong);
 		
-		textField_9 = new JTextField();
-		textField_9.setColumns(10);
-		textField_9.setBounds(508, 426, 130, 20);
-		getContentPane().add(textField_9);
+		jtfGia = new JTextField();
+		jtfGia.setColumns(10);
+		jtfGia.setBounds(508, 426, 130, 20);
+		getContentPane().add(jtfGia);
 		
 		JLabel lblTensp = new JLabel("TenSP");
 		lblTensp.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -268,28 +294,60 @@ public class Nv_view extends JFrame {
 		getContentPane().add(lblGia);
 		
 		JButton btnNewButton_2_1 = new JButton("Luu");
+		btnNewButton_2_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SanPhamModel sp = new SanPhamModel();
+				sp.setMaSP(jtfMaSP.getText());
+				sp.setTenSP(jtfTenSP.getText());
+				sp.setSoLuong(Integer.parseInt(jtfSoLuong.getText()));
+				sp.setGia(Integer.parseInt(jtfGia.getText()));
+				spDAO.insert(sp);
+				JOptionPane.showMessageDialog(null, "Save Success");
+				showData(spDAO.getAll());
+			}
+		});
 		btnNewButton_2_1.setForeground(Color.BLACK);
-		btnNewButton_2_1.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnNewButton_2_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton_2_1.setBackground(Color.BLUE);
-		btnNewButton_2_1.setBounds(345, 474, 85, 21);
+		btnNewButton_2_1.setBounds(280, 474, 85, 21);
 		getContentPane().add(btnNewButton_2_1);
 		
 		JButton btnNewButton_2_2 = new JButton("Xoa");
+		btnNewButton_2_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SanPhamModel sp = new SanPhamModel();
+				sp.setMaSP(jtfMaSP.getText());
+				spDAO.delete(sp);
+				showData(spDAO.getAll());
+			}
+		});
 		btnNewButton_2_2.setForeground(Color.BLACK);
-		btnNewButton_2_2.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnNewButton_2_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton_2_2.setBackground(Color.RED);
-		btnNewButton_2_2.setBounds(449, 474, 85, 21);
+		btnNewButton_2_2.setBounds(375, 474, 85, 21);
 		getContentPane().add(btnNewButton_2_2);
 		
 		JButton btnNewButton_2_3 = new JButton("Cap Nhat");
+		btnNewButton_2_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SanPhamModel sp = new SanPhamModel();
+				sp.setMaSP(jtfMaSP.getText());
+				sp.setTenSP(jtfTenSP.getText());
+				sp.setSoLuong(Integer.parseInt(jtfSoLuong.getText()));
+				sp.setGia(Integer.parseInt(jtfGia.getText()));
+				spDAO.update(sp);
+				JOptionPane.showMessageDialog(null, "Save Success");
+				showData(spDAO.getAll());
+			}
+		});
 		btnNewButton_2_3.setForeground(Color.BLACK);
-		btnNewButton_2_3.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+		btnNewButton_2_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton_2_3.setBackground(Color.YELLOW);
-		btnNewButton_2_3.setBounds(553, 474, 85, 21);
+		btnNewButton_2_3.setBounds(470, 474, 85, 21);
 		getContentPane().add(btnNewButton_2_3);
 		
 		this.setVisible(true);
-		SanPhamDAO_Impl spDAO = new SanPhamDAO_Impl();
+		
 		showData(spDAO.getAll());
 	}
 	

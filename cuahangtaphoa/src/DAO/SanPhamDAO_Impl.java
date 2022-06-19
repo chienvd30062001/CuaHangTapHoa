@@ -85,19 +85,20 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 	@Override
 	public List<SanPhamModel> getByName(SanPhamModel spm) {
 		List<SanPhamModel>sanPhamListSearch = new ArrayList<>();
-		String query ="select * from sanpham where name='"+spm.getMaSP()+"'";
+		String query ="select * from sanpham where sanpham.TenSP='"+spm.getTenSP()+"'";
 		try {
 			Connection connection = DBConnect.getConnection(); 
 			Statement stmt = (Statement) connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				SanPhamModel sp = new SanPhamModel(rs.getString(0), rs.getString(1), rs.getInt(2), rs.getInt(3));
+				SanPhamModel sp = new SanPhamModel(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
 				sanPhamListSearch.add(sp);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return null;
+		System.out.print(sanPhamListSearch);
+		return sanPhamListSearch;
 	}
 
 }
