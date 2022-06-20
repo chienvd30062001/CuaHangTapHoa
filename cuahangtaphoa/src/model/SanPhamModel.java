@@ -44,5 +44,7 @@ public class SanPhamModel {
 	public void setGia(int gia) {
 		this.gia = gia;
 	}
-	
+	 public int tinhTongTien(int sotien) {
+		 return sotien+tinhTongTien(sotien);
+	 }
 }

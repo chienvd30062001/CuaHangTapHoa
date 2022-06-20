@@ -32,13 +32,14 @@ import java.awt.event.ActionEvent;
 
 public class Nv_view extends JFrame {
 
+	
 	private JPanel contentPane;
 	private JTextField jtfTimKiem;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField jtfTamTinh;
+	private JTextField jtfGiamGia;
+	private JTextField jtfTongCong;
+	private JTextField jtfNhanTuKhach;
+	private JTextField jtfTraKhach;
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
 	private JButton btnNewButton_4;
@@ -54,6 +55,7 @@ public class Nv_view extends JFrame {
 	private JTextField jtfTenSP;
 	private JTextField jtfSoLuong;
 	private JTextField jtfGia;
+	private JButton btnMua;
 
 	/**
 	 * Launch the application.
@@ -76,6 +78,7 @@ public class Nv_view extends JFrame {
 	public Nv_view() {
 		
 		SanPhamDAO_Impl spDAO = new SanPhamDAO_Impl();
+		List<SanPhamModel> listMuaHang = new ArrayList<>();
 		
 		setTitle("CuaHangTapHoa");
 		setSize(1036, 558);
@@ -106,35 +109,36 @@ public class Nv_view extends JFrame {
 				jtfTenSP.setText("");
 				jtfSoLuong.setText("");
 				jtfGia.setText("");
+				showData(spDAO.getAll());
 			}
 		});
 		btnLamMoi.setBounds(565, 474, 85, 21);
 		getContentPane().add(btnLamMoi);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(846, 312, 153, 19);
-		getContentPane().add(textField_1);
-		textField_1.setColumns(10);
+		jtfTamTinh = new JTextField();
+		jtfTamTinh.setBounds(846, 312, 153, 19);
+		getContentPane().add(jtfTamTinh);
+		jtfTamTinh.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(846, 341, 153, 19);
-		getContentPane().add(textField_2);
+		jtfGiamGia = new JTextField();
+		jtfGiamGia.setColumns(10);
+		jtfGiamGia.setBounds(846, 341, 153, 19);
+		getContentPane().add(jtfGiamGia);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(846, 370, 153, 19);
-		getContentPane().add(textField_3);
+		jtfTongCong = new JTextField();
+		jtfTongCong.setColumns(10);
+		jtfTongCong.setBounds(846, 370, 153, 19);
+		getContentPane().add(jtfTongCong);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(846, 399, 153, 19);
-		getContentPane().add(textField_4);
+		jtfNhanTuKhach = new JTextField();
+		jtfNhanTuKhach.setColumns(10);
+		jtfNhanTuKhach.setBounds(846, 399, 153, 19);
+		getContentPane().add(jtfNhanTuKhach);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(846, 428, 153, 19);
-		getContentPane().add(textField_5);
+		jtfTraKhach = new JTextField();
+		jtfTraKhach.setColumns(10);
+		jtfTraKhach.setBounds(846, 428, 153, 19);
+		getContentPane().add(jtfTraKhach);
 		
 		btnNewButton_2 = new JButton("Thanh to\u00E1n");
 		btnNewButton_2.setBackground(new Color(0, 255, 255));
@@ -161,7 +165,6 @@ public class Nv_view extends JFrame {
 		getContentPane().add(scrollPane);
 		
 		table = new JTable();
-		table.setEnabled(false);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null, null, null},
@@ -222,30 +225,29 @@ public class Nv_view extends JFrame {
 		getContentPane().add(lblNewLabel_4);
 		
 		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(677, 79, 335, 211);
+		scrollPane_1.setBounds(677, 79, 252, 211);
 		getContentPane().add(scrollPane_1);
 		
 		table_1 = new JTable();
 		table_1.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
 			},
 			new String[] {
-				"MaSP", "TenSP", "SoLuong", "Gia", "Xoa"
+				"MaSP", "TenSP", "SoLuong", "Gia"
 			}
 		));
 		table_1.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -304,6 +306,10 @@ public class Nv_view extends JFrame {
 				spDAO.insert(sp);
 				JOptionPane.showMessageDialog(null, "Save Success");
 				showData(spDAO.getAll());
+				jtfMaSP.setText("");
+				jtfTenSP.setText("");
+				jtfSoLuong.setText("");
+				jtfGia.setText("");
 			}
 		});
 		btnNewButton_2_1.setForeground(Color.BLACK);
@@ -346,9 +352,57 @@ public class Nv_view extends JFrame {
 		btnNewButton_2_3.setBounds(470, 474, 85, 21);
 		getContentPane().add(btnNewButton_2_3);
 		
+		JButton btnLayDuLieu = new JButton("Lay du luu");
+		btnLayDuLieu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				layDuLieu();
+			}
+		});
+		btnLayDuLieu.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnLayDuLieu.setBounds(176, 474, 94, 21);
+		getContentPane().add(btnLayDuLieu);
+		
+		btnMua = new JButton("Mua");
+		btnMua.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SanPhamModel sp = new SanPhamModel();
+				sp.setMaSP(jtfMaSP.getText());
+				sp.setTenSP(jtfTenSP.getText());
+				sp.setSoLuong(Integer.parseInt(jtfSoLuong.getText()));
+				sp.setGia(Integer.parseInt(jtfGia.getText()));
+				listMuaHang.add(sp);
+				JOptionPane.showMessageDialog(null, "Save Success");
+				int sl_mua=Integer.parseInt(jtfSoLuong.getText());
+				spDAO.updateAfterBuy(sp,sl_mua);
+				showData_2(listMuaHang);
+			  //tinh tien
+			
+				listMuaHang.forEach((sanpham)-> {
+					SanPhamModel TongTien = new SanPhamModel(); 
+					Integer.valueOf(sanpham.getSoLuong());
+					//TongTien.tinhTongTien(sanpham.getSoLuong()) =	Integer. sanpham.getSoLuong();
+					System.out.print(Integer.valueOf(sanpham.getSoLuong()));				
+					});
+				//jtfTamTinh.setText(String.valueOf(TongTien));
+				
+				
+			}
+		});
+		btnMua.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnMua.setBounds(76, 475, 94, 21);
+		getContentPane().add(btnMua);
+		
+		JButton btnNewButton_2_2_1 = new JButton("Xoa");
+		btnNewButton_2_2_1.setForeground(Color.BLACK);
+		btnNewButton_2_2_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnNewButton_2_2_1.setBackground(Color.RED);
+		btnNewButton_2_2_1.setBounds(937, 82, 85, 21);
+		getContentPane().add(btnNewButton_2_2_1);
+		
 		this.setVisible(true);
 		
 		showData(spDAO.getAll());
+	
 	}
 	
 	public void showData(List<SanPhamModel> spList) {
@@ -364,4 +418,29 @@ public class Nv_view extends JFrame {
 			});
 		});
 	}
+	public void showData_2(List<SanPhamModel> spList) {
+		List<SanPhamModel> listSanPham = new ArrayList<>();
+		listSanPham = spList;
+		DefaultTableModel tableModel;
+		table_1.getModel();
+		tableModel =(DefaultTableModel)table_1.getModel();
+		tableModel.setRowCount(0);
+		listSanPham.forEach((sanpham)-> {
+			tableModel.addRow(new Object[] {
+					sanpham.getMaSP(),sanpham.getTenSP(),sanpham.getSoLuong(),sanpham.getGia()
+			});
+		});
+	}
+	
+	public void layDuLieu() {
+		DefaultTableModel modelTable = (DefaultTableModel) table.getModel();
+		int index = table.getSelectedRow();
+		//SanPhamModel sp = new SanPhamModel();
+		jtfMaSP.setText(String.valueOf(modelTable.getValueAt(index, 0)));
+		jtfTenSP.setText(String.valueOf(modelTable.getValueAt(index, 1)));
+		jtfSoLuong.setText(String.valueOf(modelTable.getValueAt(index,2)));
+		jtfGia.setText(String.valueOf(modelTable.getValueAt(index, 3)));
+		
+	
+}
 }

@@ -54,7 +54,7 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 
 	@Override
 	public void delete(SanPhamModel spm) {
-		 String query ="delete from sanpham where name='"+spm.getMaSP()+"'";
+		 String query ="delete from sanpham where MaSP='"+spm.getMaSP()+"'";
 			try {
 			Connection connection = DBConnect.getConnection();
 			PreparedStatement pstmt =connection.prepareStatement(query);
@@ -67,7 +67,7 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 
 	@Override
 	public void update(SanPhamModel spm) {
-		 String query ="update sanpham set MaSP=?,TenSp=?,SoLuong=?,Gia=? name='"+spm.getMaSP()+"'";
+		 String query ="update sanpham set MaSP=?,TenSp=?,SoLuong=?,Gia=? where MaSP='"+spm.getMaSP()+"'";
 			try {
 				Connection connection = DBConnect.getConnection();
 				PreparedStatement pstmt =connection.prepareStatement(query);
@@ -99,6 +99,24 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 		}
 		System.out.print(sanPhamListSearch);
 		return sanPhamListSearch;
+	}
+
+	@Override
+	public void updateAfterBuy(SanPhamModel spm,int sl_mua) {
+		 String query ="update sanpham set MaSP=?,TenSp=?,SoLuong=?-'"+sl_mua+"',Gia=? where MaSP='"+spm.getMaSP()+"'";
+			try {
+				Connection connection = DBConnect.getConnection();
+				PreparedStatement pstmt =connection.prepareStatement(query);
+				pstmt.setString(1,spm.getMaSP());
+				pstmt.setString(2,spm.getTenSP());
+				pstmt.setInt(3,spm.getSoLuong());
+				pstmt.setInt(4,spm.getGia());
+				pstmt.executeUpdate();	
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+			
+		
 	}
 
 }
