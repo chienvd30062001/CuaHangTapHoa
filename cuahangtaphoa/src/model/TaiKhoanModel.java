@@ -2,23 +2,19 @@ package model;
 
 public class TaiKhoanModel {
 	
-	public TaiKhoanModel(int maTaiKhoan, String tenDangNhap, String matKhau, boolean trangThai) {
-		this.maTaiKhoan = maTaiKhoan;
-		this.tenDangNhap = tenDangNhap;
-		this.matKhau = matKhau;
-		this.trangThai = trangThai;
-	}
-	private int maTaiKhoan;
+	/*
+	 * public TaiKhoanModel(String tenDangNhap, String matKhau, boolean trangThai) {
+	 * this.tenDangNhap = tenDangNhap; this.matKhau = matKhau; this.trangThai =
+	 * trangThai; }
+	 * 
+	 * public TaiKhoanModel() { this.tenDangNhap = ""; this.matKhau = "";
+	 * this.trangThai = false; }
+	 */
+
 	private String tenDangNhap;
 	private String matKhau;
 	private boolean trangThai;
 	
-	public int getMaTaiKhoan() {
-		return maTaiKhoan;
-	}
-	public void setMaTaiKhoan(int maTaiKhoan) {
-		this.maTaiKhoan = maTaiKhoan;
-	}
 	public String getTenDangNhap() {
 		return tenDangNhap;
 	}

@@ -30,7 +30,7 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Nv_view extends JFrame {
+public class BanHang_View extends JFrame {
 
   	private JPanel contentPane;
 	private JTextField jtfTimKiem;
@@ -63,7 +63,7 @@ public class Nv_view extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Nv_view frame = new Nv_view();
+					BanHang_View frame = new BanHang_View();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -74,7 +74,7 @@ public class Nv_view extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Nv_view() {
+	public BanHang_View() {
 		
 		SanPhamDAO_Impl spDAO = new SanPhamDAO_Impl();
 		List<SanPhamModel> listMuaHang = new ArrayList<>();
