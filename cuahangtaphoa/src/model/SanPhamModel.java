@@ -5,20 +5,29 @@ public class SanPhamModel {
 	private String tenSP;
 	private int soLuong;
 	private int gia;
+	private int giamGia;
 	
+	public int getGiamGia() {
+		return giamGia;
+	}
+	public void setGiamGia(int giamGia) {
+		this.giamGia = giamGia;
+	}
 	public SanPhamModel() {
 		super();
 		this.maSP = "";
 		this.tenSP = "";
 		this.soLuong = 0;
 		this.gia = 0;
+		this.giamGia =0;
 	}
-	public SanPhamModel(String maSP, String tenSP, int soLuong, int gia) {
+	public SanPhamModel(String maSP, String tenSP, int soLuong, int gia, int giamGia) {
 		super();
 		this.maSP = maSP;
 		this.tenSP = tenSP;
 		this.soLuong = soLuong;
 		this.gia = gia;
+		this.giamGia = giamGia;
 	}
 	public String getMaSP() {
 		return maSP;

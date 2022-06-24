@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import model.SanPhamModel;
-import view.Nv_view;
+import view.KhoHang_View;
 
 public class SanPhamDAO_Impl implements SanPhamDAO {
 
@@ -25,7 +25,25 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 			Statement stmt = (Statement) connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				SanPhamModel sp = new SanPhamModel(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
+				SanPhamModel sp = new SanPhamModel(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),rs.getInt(5));
+				sanPhamList.add(sp);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return sanPhamList;
+	}
+
+	@Override
+	public List<SanPhamModel> getAllMuaHang() {
+		List<SanPhamModel> sanPhamList = new ArrayList<>();
+		String query ="select * from muahang";
+		try {
+			Connection connection = DBConnect.getConnection(); 
+			Statement stmt = (Statement) connection.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				SanPhamModel sp = new SanPhamModel(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),rs.getInt(5));
 				sanPhamList.add(sp);
 			}
 		} catch (Exception e) {
@@ -36,7 +54,7 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 
 	@Override
 	public void insert(SanPhamModel spm) {
-	 String query ="insert into sanpham values(?,?,?,?)";
+	 String query ="insert into sanpham values(?,?,?,?,?)";
 		try {
 		Connection connection = DBConnect.getConnection();
 		PreparedStatement pstmt =connection.prepareStatement(query);
@@ -44,6 +62,7 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 		pstmt.setString(2,spm.getTenSP());
 		pstmt.setInt(3,spm.getSoLuong());
 		pstmt.setInt(4,spm.getGia());
+		pstmt.setInt(5,spm.getGiamGia());
 		pstmt.execute();		
 			
 	} catch (Exception e) {
@@ -67,7 +86,7 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 
 	@Override
 	public void update(SanPhamModel spm) {
-		 String query ="update sanpham set MaSP=?,TenSp=?,SoLuong=?,Gia=? where MaSP='"+spm.getMaSP()+"'";
+		 String query ="update sanpham set MaSP=?,TenSp=?,SoLuong=?,Gia=?,GiamGia=? where MaSP='"+spm.getMaSP()+"'";
 			try {
 				Connection connection = DBConnect.getConnection();
 				PreparedStatement pstmt =connection.prepareStatement(query);
@@ -75,6 +94,7 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 				pstmt.setString(2,spm.getTenSP());
 				pstmt.setInt(3,spm.getSoLuong());
 				pstmt.setInt(4,spm.getGia());
+				pstmt.setInt(5,spm.getGiamGia());
 				pstmt.executeUpdate();	
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -91,13 +111,12 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 			Statement stmt = (Statement) connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				SanPhamModel sp = new SanPhamModel(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
+				SanPhamModel sp = new SanPhamModel(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),rs.getInt(5));
 				sanPhamListSearch.add(sp);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		System.out.print(sanPhamListSearch);
 		return sanPhamListSearch;
 	}
 
@@ -118,5 +137,41 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 			
 		
 	}
+
+	@Override
+	public void insertMuaHang(SanPhamModel spm,int maHD) {
+		 String query ="insert into muahang values(?,?,?,?,?,?)";
+			try {
+				
+			Connection connection = DBConnect.getConnection();
+			PreparedStatement pstmt =connection.prepareStatement(query);
+			pstmt.setString(1,spm.getMaSP());
+			pstmt.setString(2,spm.getTenSP());
+			pstmt.setInt(3,spm.getSoLuong());
+			pstmt.setInt(4,spm.getGia());
+			pstmt.setInt(5,spm.getGiamGia());
+			pstmt.setInt(6,maHD);
+			pstmt.execute();		
+		
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+			
+		
+	}
+	
+	@Override
+	public void deleteMuaHang() {
+		String query ="delete from muahang";
+		try {
+		Connection connection = DBConnect.getConnection();
+		PreparedStatement pstmt =connection.prepareStatement(query);
+		pstmt.executeUpdate();		
+			
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+	}
+
 
 }

@@ -13,13 +13,16 @@ import javax.swing.JTextPane;
 
 import java.awt.TextField;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.table.DefaultTableModel;
 
+import model.HoaDonModel;
 import model.SanPhamModel;
 import DAO.DBConnect;
+import DAO.HoaDonDAO_Impl;
 import DAO.SanPhamDAO;
 import DAO.SanPhamDAO_Impl;
 
@@ -28,22 +31,22 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class BanHang_View extends JFrame {
 
   	private JPanel contentPane;
 	private JTextField jtfTimKiem;
-	private JTextField jtfTamTinh;
-	private JTextField jtfGiamGia;
 	private JTextField jtfTongCong;
 	private JTextField jtfNhanTuKhach;
-	private JTextField jtfTraKhach;
+	private JTextField jtfTraLaiKhach;
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
 	private JButton btnNewButton_4;
 	private static JTable table;
-	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
@@ -55,7 +58,8 @@ public class BanHang_View extends JFrame {
 	private JTextField jtfSoLuong;
 	private JTextField jtfGia;
 	private JButton btnMua;
-
+	private JTextField jtfGiamGia;
+	private  static int maHD =1;
 	/**
 	 * Launch the application.
 	 */
@@ -78,6 +82,7 @@ public class BanHang_View extends JFrame {
 		
 		SanPhamDAO_Impl spDAO = new SanPhamDAO_Impl();
 		List<SanPhamModel> listMuaHang = new ArrayList<>();
+		final int  TongTien ;
 		
 		setTitle("CuaHangTapHoa");
 		setSize(1036, 558);
@@ -99,7 +104,7 @@ public class BanHang_View extends JFrame {
 		btnTimKiem.setBounds(508, 40, 130, 26);
 		getContentPane().add(btnTimKiem);
 		
-		JButton btnLamMoi = new JButton("Lam Moi");
+		JButton btnLamMoi = new JButton("L\u00E0m m\u1EDBi");
 		btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLamMoi.setBackground(Color.LIGHT_GRAY);
 		btnLamMoi.addActionListener(new ActionListener() {
@@ -111,18 +116,8 @@ public class BanHang_View extends JFrame {
 				showData(spDAO.getAll());
 			}
 		});
-		btnLamMoi.setBounds(565, 474, 85, 21);
+		btnLamMoi.setBounds(553, 474, 85, 21);
 		getContentPane().add(btnLamMoi);
-		
-		jtfTamTinh = new JTextField();
-		jtfTamTinh.setBounds(846, 312, 153, 19);
-		getContentPane().add(jtfTamTinh);
-		jtfTamTinh.setColumns(10);
-		
-		jtfGiamGia = new JTextField();
-		jtfGiamGia.setColumns(10);
-		jtfGiamGia.setBounds(846, 341, 153, 19);
-		getContentPane().add(jtfGiamGia);
 		
 		jtfTongCong = new JTextField();
 		jtfTongCong.setColumns(10);
@@ -130,16 +125,35 @@ public class BanHang_View extends JFrame {
 		getContentPane().add(jtfTongCong);
 		
 		jtfNhanTuKhach = new JTextField();
+		jtfNhanTuKhach.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseExited(MouseEvent e) {
+				int TongTien = Integer.parseInt(jtfTongCong.getText());
+				int KhachTra =Integer.parseInt(jtfNhanTuKhach.getText());
+				jtfTraLaiKhach.setText(String.valueOf(KhachTra - TongTien));
+			}
+		});
 		jtfNhanTuKhach.setColumns(10);
 		jtfNhanTuKhach.setBounds(846, 399, 153, 19);
 		getContentPane().add(jtfNhanTuKhach);
 		
-		jtfTraKhach = new JTextField();
-		jtfTraKhach.setColumns(10);
-		jtfTraKhach.setBounds(846, 428, 153, 19);
-		getContentPane().add(jtfTraKhach);
+		jtfTraLaiKhach = new JTextField();
+		jtfTraLaiKhach.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					
+			}
+		});
+		jtfTraLaiKhach.setColumns(10);
+		jtfTraLaiKhach.setBounds(846, 428, 153, 19);
+		getContentPane().add(jtfTraLaiKhach);
 		
 		btnNewButton_2 = new JButton("Thanh to\u00E1n");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				luuHoaDon();
+				
+			}
+		});
 		btnNewButton_2.setBackground(new Color(0, 255, 255));
 		btnNewButton_2.setForeground(Color.BLACK);
 		btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -147,6 +161,12 @@ public class BanHang_View extends JFrame {
 		getContentPane().add(btnNewButton_2);
 		
 		btnNewButton_3 = new JButton("Xu\u1EA5t");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				spDAO.deleteMuaHang();
+				showData_2(spDAO.getAllMuaHang());
+			}
+		});
 		btnNewButton_3.setBackground(Color.GREEN);
 		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton_3.setBounds(914, 474, 85, 21);
@@ -166,47 +186,36 @@ public class BanHang_View extends JFrame {
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, ""},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
 			},
 			new String[] {
-				"MaSP", "TenSP", "SoLuong", "Gia"
+				"M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m", "S\u1ED1 L\u01B0\u1EE3ng", "Gi\u00E1", "Gi\u1EA3m Gi\u00E1"
 			}
 		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(52);
-		table.getColumnModel().getColumn(1).setPreferredWidth(111);
-		table.getColumnModel().getColumn(2).setPreferredWidth(59);
-		table.getColumnModel().getColumn(3).setPreferredWidth(92);
+		table.getColumnModel().getColumn(1).setPreferredWidth(52);
+		table.getColumnModel().getColumn(2).setPreferredWidth(111);
+		table.getColumnModel().getColumn(3).setPreferredWidth(59);
 		table.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		scrollPane.setViewportView(table);
-		
-		JLabel lblNewLabel = new JLabel("T\u1EA1m t\u00EDnh");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel.setBounds(701, 312, 94, 15);
-		getContentPane().add(lblNewLabel);
-		
-		lblNewLabel_1 = new JLabel("Gi\u1EA3m gi\u00E1 (%)");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1.setBounds(701, 342, 94, 15);
-		getContentPane().add(lblNewLabel_1);
 		
 		lblNewLabel_2 = new JLabel("Tr\u1EA3 l\u1EA1i kh\u00E1ch");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -224,29 +233,30 @@ public class BanHang_View extends JFrame {
 		getContentPane().add(lblNewLabel_4);
 		
 		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(677, 79, 252, 211);
+		scrollPane_1.setBounds(677, 79, 322, 252);
 		getContentPane().add(scrollPane_1);
 		
 		table_1 = new JTable();
+		table_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table_1.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
 			},
 			new String[] {
-				"MaSP", "TenSP", "SoLuong", "Gia"
+				"M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m", "S\u1ED1 L\u01B0\u1EE3ng", "Gi\u00E1", "Gi\u1EA3m Gi\u00E1 (%)"
 			}
 		));
 		table_1.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -254,111 +264,54 @@ public class BanHang_View extends JFrame {
 		table_1.getColumnModel().getColumn(2).setPreferredWidth(53);
 		scrollPane_1.setViewportView(table_1);
 		
-		lblMasp = new JLabel("MaSP");
+		lblMasp = new JLabel("M\u00E3 S\u1EA3n Ph\u1EA9m");
 		lblMasp.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblMasp.setBounds(40, 400, 85, 15);
+		lblMasp.setBounds(20, 400, 85, 15);
 		getContentPane().add(lblMasp);
 		
 		jtfMaSP = new JTextField();
 		jtfMaSP.setColumns(10);
-		jtfMaSP.setBounds(40, 427, 130, 20);
+		jtfMaSP.setBounds(20, 428, 110, 20);
 		getContentPane().add(jtfMaSP);
 		
 		jtfTenSP = new JTextField();
 		jtfTenSP.setColumns(10);
-		jtfTenSP.setBounds(201, 427, 130, 20);
+		jtfTenSP.setBounds(148, 428, 110, 20);
 		getContentPane().add(jtfTenSP);
 		
 		jtfSoLuong = new JTextField();
 		jtfSoLuong.setColumns(10);
-		jtfSoLuong.setBounds(356, 426, 130, 20);
+		jtfSoLuong.setBounds(278, 428, 110, 20);
 		getContentPane().add(jtfSoLuong);
 		
 		jtfGia = new JTextField();
 		jtfGia.setColumns(10);
-		jtfGia.setBounds(508, 426, 130, 20);
+		jtfGia.setBounds(405, 428, 110, 20);
 		getContentPane().add(jtfGia);
 		
-		JLabel lblTensp = new JLabel("TenSP");
+		JLabel lblTensp = new JLabel("T\u00EAn S\u1EA3n Ph\u1EA9m");
 		lblTensp.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblTensp.setBounds(207, 401, 85, 15);
+		lblTensp.setBounds(148, 400, 85, 15);
 		getContentPane().add(lblTensp);
 		
-		JLabel lblSoluong = new JLabel("SoLuong");
+		JLabel lblSoluong = new JLabel("S\u1ED1 L\u01B0\u1EE3ng");
 		lblSoluong.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblSoluong.setBounds(356, 400, 85, 15);
+		lblSoluong.setBounds(278, 400, 85, 15);
 		getContentPane().add(lblSoluong);
 		
-		JLabel lblGia = new JLabel("Gia");
+		JLabel lblGia = new JLabel("Gi\u00E1");
 		lblGia.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblGia.setBounds(508, 400, 85, 15);
+		lblGia.setBounds(405, 400, 85, 15);
 		getContentPane().add(lblGia);
 		
-		JButton btnNewButton_2_1 = new JButton("Luu");
-		btnNewButton_2_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SanPhamModel sp = new SanPhamModel();
-				sp.setMaSP(jtfMaSP.getText());
-				sp.setTenSP(jtfTenSP.getText());
-				sp.setSoLuong(Integer.parseInt(jtfSoLuong.getText()));
-				sp.setGia(Integer.parseInt(jtfGia.getText()));
-				spDAO.insert(sp);
-				JOptionPane.showMessageDialog(null, "Save Success");
-				showData(spDAO.getAll());
-				jtfMaSP.setText("");
-				jtfTenSP.setText("");
-				jtfSoLuong.setText("");
-				jtfGia.setText("");
-			}
-		});
-		btnNewButton_2_1.setForeground(Color.BLACK);
-		btnNewButton_2_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnNewButton_2_1.setBackground(Color.BLUE);
-		btnNewButton_2_1.setBounds(280, 474, 85, 21);
-		getContentPane().add(btnNewButton_2_1);
-		
-		JButton btnNewButton_2_2 = new JButton("Xoa");
-		btnNewButton_2_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SanPhamModel sp = new SanPhamModel();
-				sp.setMaSP(jtfMaSP.getText());
-				spDAO.delete(sp);
-				showData(spDAO.getAll());
-			}
-		});
-		btnNewButton_2_2.setForeground(Color.BLACK);
-		btnNewButton_2_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnNewButton_2_2.setBackground(Color.RED);
-		btnNewButton_2_2.setBounds(375, 474, 85, 21);
-		getContentPane().add(btnNewButton_2_2);
-		
-		JButton btnNewButton_2_3 = new JButton("Cap Nhat");
-		btnNewButton_2_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SanPhamModel sp = new SanPhamModel();
-				sp.setMaSP(jtfMaSP.getText());
-				sp.setTenSP(jtfTenSP.getText());
-				sp.setSoLuong(Integer.parseInt(jtfSoLuong.getText()));
-				sp.setGia(Integer.parseInt(jtfGia.getText()));
-				spDAO.update(sp);
-				JOptionPane.showMessageDialog(null, "Save Success");
-				showData(spDAO.getAll());
-			}
-		});
-		btnNewButton_2_3.setForeground(Color.BLACK);
-		btnNewButton_2_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnNewButton_2_3.setBackground(Color.YELLOW);
-		btnNewButton_2_3.setBounds(470, 474, 85, 21);
-		getContentPane().add(btnNewButton_2_3);
-		
-		JButton btnLayDuLieu = new JButton("Lay du luu");
+		JButton btnLayDuLieu = new JButton("L\u1EA5y d\u1EEF li\u1EC7u");
 		btnLayDuLieu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				layDuLieu();
 			}
 		});
 		btnLayDuLieu.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnLayDuLieu.setBounds(176, 474, 94, 21);
+		btnLayDuLieu.setBounds(450, 474, 94, 21);
 		getContentPane().add(btnLayDuLieu);
 		
 		btnMua = new JButton("Mua");
@@ -369,40 +322,66 @@ public class BanHang_View extends JFrame {
 				sp.setTenSP(jtfTenSP.getText());
 				sp.setSoLuong(Integer.parseInt(jtfSoLuong.getText()));
 				sp.setGia(Integer.parseInt(jtfGia.getText()));
-				listMuaHang.add(sp);
+				sp.setGiamGia(Integer.parseInt(jtfGiamGia.getText()));
+				spDAO.insertMuaHang(sp,maHD);
 				JOptionPane.showMessageDialog(null, "Save Success");
-				int sl_mua=Integer.parseInt(jtfSoLuong.getText());
-				spDAO.updateAfterBuy(sp,sl_mua);
-				showData_2(listMuaHang);
+				showData_2(spDAO.getAllMuaHang());
 			  //tinh tien
-			
-				listMuaHang.forEach((sanpham)-> {
-					SanPhamModel TongTien = new SanPhamModel(); 
-					Integer.valueOf(sanpham.getSoLuong());
-					//TongTien.tinhTongTien(sanpham.getSoLuong()) =	Integer. sanpham.getSoLuong();
-					System.out.print(Integer.valueOf(sanpham.getSoLuong()));				
-					});
-				//jtfTamTinh.setText(String.valueOf(TongTien));
-				
-				
+                 Tong();
+         		
 			}
 		});
 		btnMua.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnMua.setBounds(76, 475, 94, 21);
+		btnMua.setBounds(347, 474, 94, 21);
 		getContentPane().add(btnMua);
 		
-		JButton btnNewButton_2_2_1 = new JButton("Xoa");
-		btnNewButton_2_2_1.setForeground(Color.BLACK);
-		btnNewButton_2_2_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnNewButton_2_2_1.setBackground(Color.RED);
-		btnNewButton_2_2_1.setBounds(937, 82, 85, 21);
-		getContentPane().add(btnNewButton_2_2_1);
+		jtfGiamGia = new JTextField();
+		jtfGiamGia.setColumns(10);
+		jtfGiamGia.setBounds(528, 428, 110, 20);
+		getContentPane().add(jtfGiamGia);
+		
+		JLabel lblGimGi = new JLabel("Gi\u1EA3m Gi\u00E1");
+		lblGimGi.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblGimGi.setBounds(528, 400, 85, 15);
+		getContentPane().add(lblGimGi);
+		
+		
+
 		
 		this.setVisible(true);
 		
 		showData(spDAO.getAll());
+		
+		
 	
 	}
+	
+	public void luuHoaDon() {
+		List<SanPhamModel> listMuaHang= new ArrayList<>();
+		HoaDonModel hd = new HoaDonModel();
+		SanPhamDAO_Impl sp_DAO = new SanPhamDAO_Impl();
+		HoaDonDAO_Impl hd_DAO =new HoaDonDAO_Impl();
+		listMuaHang = sp_DAO.getAllMuaHang();
+		System.out.print(listMuaHang);
+	   for (int i = 0;i<listMuaHang.size();i++) {
+		   hd.setMaSanPham(listMuaHang.get(i).getMaSP()); 
+			hd.setTenSanPham(listMuaHang.get(i).getTenSP());
+			hd.setSoLuong(listMuaHang.get(i).getSoLuong());
+			hd.setGia(listMuaHang.get(i).getGia());
+			hd.setGiamGia(listMuaHang.get(i).getGiamGia());
+			hd.setTongCong(Integer.parseInt(jtfTongCong.getText()));
+			hd.setNhanTuKhach(Integer.parseInt(jtfNhanTuKhach.getText()));
+			hd.setTraLaiKhach(Integer.parseInt(jtfTraLaiKhach.getText()));
+			hd_DAO.insertHoaDon(hd,maHD);
+			
+	}
+	    jtfTongCong.setText("");
+		jtfNhanTuKhach.setText("");
+		jtfTraLaiKhach.setText("");
+		maHD++;
+	}
+	
+	
 	
 	public void showData(List<SanPhamModel> spList) {
 		List<SanPhamModel> listSanPham = new ArrayList<>();
@@ -413,7 +392,7 @@ public class BanHang_View extends JFrame {
 		tableModel.setRowCount(0);
 		listSanPham.forEach((sanpham)-> {
 			tableModel.addRow(new Object[] {
-					sanpham.getMaSP(),sanpham.getTenSP(),sanpham.getSoLuong(),sanpham.getGia()
+					sanpham.getMaSP(),sanpham.getTenSP(),sanpham.getSoLuong(),sanpham.getGia(),sanpham.getGiamGia()
 			});
 		});
 	}
@@ -424,9 +403,10 @@ public class BanHang_View extends JFrame {
 		table_1.getModel();
 		tableModel =(DefaultTableModel)table_1.getModel();
 		tableModel.setRowCount(0);
+		System.out.print(listSanPham);
 		listSanPham.forEach((sanpham)-> {
 			tableModel.addRow(new Object[] {
-					sanpham.getMaSP(),sanpham.getTenSP(),sanpham.getSoLuong(),sanpham.getGia()
+					sanpham.getMaSP(),sanpham.getTenSP(),sanpham.getSoLuong(),sanpham.getGia(),sanpham.getGiamGia()
 			});
 		});
 	}
@@ -439,7 +419,18 @@ public class BanHang_View extends JFrame {
 		jtfTenSP.setText(String.valueOf(modelTable.getValueAt(index, 1)));
 		jtfSoLuong.setText(String.valueOf(modelTable.getValueAt(index,2)));
 		jtfGia.setText(String.valueOf(modelTable.getValueAt(index, 3)));
+		jtfGiamGia.setText(String.valueOf(modelTable.getValueAt(index, 4)));
 		
 	
 }
+	
+	public int Tong() {
+		DecimalFormat x = new DecimalFormat("###,###,###");
+		int Tong = 0;
+		for(int i = 0 ; i<table_1.getRowCount();i++) {
+			Tong +=(Integer.parseInt(table_1.getValueAt(i, 2).toString()) * Integer.parseInt(table_1.getValueAt(i, 3).toString())*(100-Integer.parseInt(table_1.getValueAt(i, 4).toString()))/100);
+		}
+		jtfTongCong.setText(String.valueOf(Tong));
+		return Tong;
+	}
 }
