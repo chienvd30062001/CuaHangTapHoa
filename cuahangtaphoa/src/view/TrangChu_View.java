@@ -76,7 +76,9 @@ public class TrangChu_View extends JFrame {
 		JButton btnNewButton_1 = new JButton("");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				KhoHang_View kh = new KhoHang_View();
+				kh.setVisible(true);
+				setVisible(false);
 			}
 		});
 		btnNewButton_1.setBackground(SystemColor.menu);
@@ -85,6 +87,13 @@ public class TrangChu_View extends JFrame {
 		contentPane.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				QuanLyHoaDon_View ql= new QuanLyHoaDon_View();
+				ql.setVisible(true);
+				setVisible(false);
+			}
+		});
 		btnNewButton_2.setSelectedIcon(new ImageIcon(TrangChu_View.class.getResource("/img/grocery-cart (2).png")));
 		btnNewButton_2.setBackground(SystemColor.menu);
 		btnNewButton_2.setForeground(Color.BLACK);
@@ -112,6 +121,13 @@ public class TrangChu_View extends JFrame {
 		contentPane.add(btnNewButton_4);
 		
 		JButton btnNewButton = new JButton("");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BanHang_View bh = new BanHang_View();
+				bh.setVisible(true);
+				setVisible(false);
+			}
+		});
 		btnNewButton.setBackground(SystemColor.menu);
 		btnNewButton.setIcon(new ImageIcon(TrangChu_View.class.getResource("/img/grocery-cart.png")));
 		btnNewButton.setBounds(93, 204, 125, 90);

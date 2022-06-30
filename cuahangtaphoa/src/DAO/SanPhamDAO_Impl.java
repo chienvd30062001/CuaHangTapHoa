@@ -25,7 +25,7 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 			Statement stmt = (Statement) connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				SanPhamModel sp = new SanPhamModel(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),rs.getInt(5));
+				SanPhamModel sp = new SanPhamModel(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),rs.getInt(5),rs.getString(6));
 				sanPhamList.add(sp);
 			}
 		} catch (Exception e) {
@@ -43,7 +43,7 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 			Statement stmt = (Statement) connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				SanPhamModel sp = new SanPhamModel(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),rs.getInt(5));
+				SanPhamModel sp = new SanPhamModel(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),rs.getInt(5),rs.getString(6));
 				sanPhamList.add(sp);
 			}
 		} catch (Exception e) {
@@ -54,7 +54,7 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 
 	@Override
 	public void insert(SanPhamModel spm) {
-	 String query ="insert into sanpham values(?,?,?,?,?)";
+	 String query ="insert into sanpham values(?,?,?,?,?,?)";
 		try {
 		Connection connection = DBConnect.getConnection();
 		PreparedStatement pstmt =connection.prepareStatement(query);
@@ -63,6 +63,8 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 		pstmt.setInt(3,spm.getSoLuong());
 		pstmt.setInt(4,spm.getGia());
 		pstmt.setInt(5,spm.getGiamGia());
+		pstmt.setString(6,spm.getHinhAnh());
+		System.out.println(spm.getHinhAnh());
 		pstmt.execute();		
 			
 	} catch (Exception e) {
@@ -86,7 +88,7 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 
 	@Override
 	public void update(SanPhamModel spm) {
-		 String query ="update sanpham set MaSP=?,TenSp=?,SoLuong=?,Gia=?,GiamGia=? where MaSP='"+spm.getMaSP()+"'";
+		 String query ="update sanpham set MaSP=?,TenSp=?,SoLuong=?,Gia=?,GiamGia=?,HinhAnh=? where MaSP='"+spm.getMaSP()+"'";
 			try {
 				Connection connection = DBConnect.getConnection();
 				PreparedStatement pstmt =connection.prepareStatement(query);
@@ -95,6 +97,7 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 				pstmt.setInt(3,spm.getSoLuong());
 				pstmt.setInt(4,spm.getGia());
 				pstmt.setInt(5,spm.getGiamGia());
+				pstmt.setString(6,spm.getHinhAnh());
 				pstmt.executeUpdate();	
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -111,13 +114,30 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 			Statement stmt = (Statement) connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				SanPhamModel sp = new SanPhamModel(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),rs.getInt(5));
+				SanPhamModel sp = new SanPhamModel(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),rs.getInt(5),rs.getString(6));
 				sanPhamListSearch.add(sp);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return sanPhamListSearch;
+	}
+	@Override
+	public String getPathHinhAnhByName(String maSP) {
+		String HinhAnh ="";
+		String query ="select HinhAnh from sanpham where sanpham.MaSP='"+maSP+"'";
+		try {
+			Connection connection = DBConnect.getConnection(); 
+			Statement stmt = (Statement) connection.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				//SanPhamModel sp = new SanPhamModel(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4),rs.getInt(5),rs.getString(6));
+				HinhAnh =rs.getString(1);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return HinhAnh;
 	}
 
 	@Override

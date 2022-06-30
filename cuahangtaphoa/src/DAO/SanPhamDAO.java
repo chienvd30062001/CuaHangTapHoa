@@ -14,6 +14,7 @@ public interface SanPhamDAO {
 	public void deleteMuaHang();
 	public void update(SanPhamModel spm);
 	public void updateAfterBuy(SanPhamModel spm,int sl_mua);
+	public String getPathHinhAnhByName(String maSP);
 
 	//mo rong getbyma......
 }

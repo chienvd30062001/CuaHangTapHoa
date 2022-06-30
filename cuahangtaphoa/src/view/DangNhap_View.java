@@ -106,7 +106,7 @@ public class DangNhap_View extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				TaiKhoanModel taiKhoan = new TaiKhoanModel();
 				TaiKhoanDAO_Impl taiKhoanDAO = new TaiKhoanDAO_Impl();
-				
+				TrangChu_View tc = new TrangChu_View();
 				String tk = jtfTaiKhoan.getText();
 				String mk = jtfMatKhau.getText();
 				
@@ -120,6 +120,8 @@ public class DangNhap_View extends JFrame {
 					if(checkDangNhap == true)
 					{
 						JOptionPane.showMessageDialog(null, "Đăng nhập thành công !","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+						tc.setVisible(true);
+						setVisible(false);
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu sai!","Lỗi",JOptionPane.ERROR_MESSAGE);

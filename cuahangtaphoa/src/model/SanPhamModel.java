@@ -6,7 +6,15 @@ public class SanPhamModel {
 	private int soLuong;
 	private int gia;
 	private int giamGia;
+	private String hinhAnh;
 	
+	
+	public String getHinhAnh() {
+		return hinhAnh;
+	}
+	public void setHinhAnh(String hinhAnh) {
+		this.hinhAnh = hinhAnh;
+	}
 	public int getGiamGia() {
 		return giamGia;
 	}
@@ -21,13 +29,14 @@ public class SanPhamModel {
 		this.gia = 0;
 		this.giamGia =0;
 	}
-	public SanPhamModel(String maSP, String tenSP, int soLuong, int gia, int giamGia) {
+	public SanPhamModel(String maSP, String tenSP, int soLuong, int gia, int giamGia,String hinhAnh) {
 		super();
 		this.maSP = maSP;
 		this.tenSP = tenSP;
 		this.soLuong = soLuong;
 		this.gia = gia;
 		this.giamGia = giamGia;
+		this.hinhAnh= hinhAnh;
 	}
 	public String getMaSP() {
 		return maSP;

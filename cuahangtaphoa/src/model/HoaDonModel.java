@@ -13,7 +13,7 @@ public class HoaDonModel {
 	public void setGiamGia(int giamGia) {
 		this.giamGia = giamGia;
 	}
-	private int tongCong;
+	private int tongTien;
 	private int nhanTuKhach;
 	private int traLaiKhach;
 	
@@ -47,11 +47,11 @@ public class HoaDonModel {
 	public void setGia(int gia) {
 		this.gia = gia;
 	}
-	public int getTongCong() {
-		return tongCong;
+	public int getTongTien() {
+		return tongTien;
 	}
-	public void setTongCong(int tongCong) {
-		this.tongCong = tongCong;
+	public void setTongTien(int tongTien) {
+		this.tongTien = tongTien;
 	}
 	public int getNhanTuKhach() {
 		return nhanTuKhach;
