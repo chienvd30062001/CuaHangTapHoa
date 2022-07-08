@@ -16,5 +16,6 @@ public interface HoaDonDAO {
 	public List<HoaDonModel> getAllHoaDonByName(HoaDonModel hdm);
 	public void deleteHoaDon();
 	public void deleteChiTietHoaDon();
+	
 	//public void deleteSanPhamInChiTietHoaDon(String maSP);
 }

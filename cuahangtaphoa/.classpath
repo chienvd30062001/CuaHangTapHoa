@@ -9,5 +9,14 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/mysql_connector"/>
 	<classpathentry kind="lib" path="jgoodies-common-1.8.0.jar" sourcepath="jgoodies-common-1.8.0-sources.jar"/>
 	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar" sourcepath="jgoodies-forms-1.8.0-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/excel"/>
+	<classpathentry kind="lib" path="E:/doan/cuahangtaphoa/poi-bin-5.0.0-20210120/poi-5.0.0/poi-5.0.0.jar"/>
+	<classpathentry kind="lib" path="E:/doan/cuahangtaphoa/poi-bin-5.0.0-20210120/poi-5.0.0/poi-ooxml-5.0.0.jar"/>
+	<classpathentry kind="lib" path="E:/doan/cuahangtaphoa/poi-bin-5.0.0-20210120/poi-5.0.0/poi-ooxml-full-5.0.0.jar"/>
+	<classpathentry kind="lib" path="E:/doan/cuahangtaphoa/poi-bin-5.0.0-20210120/poi-5.0.0/lib/commons-math3-3.6.1.jar"/>
+	<classpathentry kind="lib" path="E:/doan/cuahangtaphoa/poi-bin-5.0.0-20210120/poi-5.0.0/lib/commons-collections4-4.4.jar"/>
+	<classpathentry kind="lib" path="E:/doan/cuahangtaphoa/poi-bin-5.0.0-20210120/poi-5.0.0/lib/commons-codec-1.15.jar"/>
+	<classpathentry kind="lib" path="E:/doan/cuahangtaphoa/poi-bin-5.0.0-20210120/poi-5.0.0/ooxml-lib/xmlbeans-4.0.0.jar"/>
+	<classpathentry kind="lib" path="E:/doan/cuahangtaphoa/poi-bin-5.0.0-20210120/poi-5.0.0/ooxml-lib/commons-compress-1.20.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

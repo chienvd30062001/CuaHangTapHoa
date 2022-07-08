@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,10 +70,10 @@ public class NhanVienDAO_Impl implements NhanVienDAO {
 			PreparedStatement pstmt =connection.prepareStatement(query);
 			pstmt.setString(1,spm.getMaNhanVien());
 			pstmt.setString(2,spm.getTenNhanVien());
-			pstmt.setDate(3,(Date) spm.getNgaySinh());
+			pstmt.setDate(3, new Date(spm.getNgaySinh().getTime()));
 			pstmt.setString(4,spm.getQueQuan());
 			pstmt.setString(5,spm.getDiaChi());
-			pstmt.setDate(6,(Date) spm.getThoiGianVao());
+			pstmt.setDate(6, new Date(spm.getThoiGianVao().getTime()));
 			pstmt.setString(7,spm.getHinhAnh());
 			System.out.println(spm.getHinhAnh());
 			pstmt.execute();		
@@ -103,10 +104,10 @@ public class NhanVienDAO_Impl implements NhanVienDAO {
 				PreparedStatement pstmt =connection.prepareStatement(query);
 				pstmt.setString(1,spm.getMaNhanVien());
 				pstmt.setString(2,spm.getTenNhanVien());
-				pstmt.setDate(3,(Date) spm.getNgaySinh());
+				pstmt.setDate(3, new Date(spm.getNgaySinh().getTime()));
 				pstmt.setString(4,spm.getQueQuan());
 				pstmt.setString(5,spm.getDiaChi());
-				pstmt.setDate(6,(Date) spm.getThoiGianVao());
+				pstmt.setDate(6, new Date(spm.getThoiGianVao().getTime()));
 				pstmt.setString(7,spm.getHinhAnh());
 				pstmt.executeUpdate();	
 		} catch (Exception e) {

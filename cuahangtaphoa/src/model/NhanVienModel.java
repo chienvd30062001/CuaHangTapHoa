@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class NhanVienModel {
 	private String maNhanVien; //ID trong database (nhanvien)

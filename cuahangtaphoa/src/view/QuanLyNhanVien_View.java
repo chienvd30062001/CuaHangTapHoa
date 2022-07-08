@@ -229,14 +229,22 @@ public class QuanLyNhanVien_View extends JFrame {
 				
 				nv.setMaNhanVien(jtfMaNhanVien.getText());
 				nv.setTenNhanVien(jtfTenNhaVien.getText());
-				nv.setNgaySinh(Date.valueOf(jtfNgaySinh.getText()));
+				try {
+					nv.setNgaySinh(new SimpleDateFormat("dd/MM/yyyy").parse(jtfNgaySinh.getText()));
+				} catch (ParseException e1) {
+		
+					e1.printStackTrace();
+				}
 				nv.setQueQuan(jtfQueQuan.getText());
 				nv.setDiaChi(jtfDiaChi.getText());				
-				nv.setThoiGianVao(Date.valueOf(jtfThoiGianVao.getText()));
+			
+				try {
+					nv.setThoiGianVao(new SimpleDateFormat("dd/MM/yyyy").parse(jtfThoiGianVao.getText()));
+				} catch (ParseException e1) {
+		
+					e1.printStackTrace();
+				}
 				nv.setHinhAnh(luuAnh);
-				System.out.println(nv.getNgaySinh());
-				System.out.println(nv.getMaNhanVien());
-				System.out.println(nv.getThoiGianVao());
 				nvDAO.insert(nv);
 				JOptionPane.showMessageDialog(null, "Save Success");
 				showData(nvDAO.getAll());
@@ -261,10 +269,18 @@ public class QuanLyNhanVien_View extends JFrame {
 				NhanVienModel nv = new NhanVienModel();
 				nv.setMaNhanVien(jtfMaNhanVien.getText());
 				nv.setTenNhanVien(jtfTenNhaVien.getText());
-				nv.setNgaySinh(Date.valueOf(jtfNgaySinh.getText()));
+				try {
+					nv.setNgaySinh(new SimpleDateFormat("dd/MM/yyyy").parse(jtfNgaySinh.getText()));
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
 				nv.setQueQuan(jtfQueQuan.getText());
 				nv.setDiaChi(jtfDiaChi.getText());
-				nv.setThoiGianVao(Date.valueOf(jtfThoiGianVao.getText()));
+				try {
+					nv.setThoiGianVao(new SimpleDateFormat("dd/MM/yyyy").parse(jtfThoiGianVao.getText()));
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
 				nv.setHinhAnh(luuAnh);
 				nvDAO.update(nv);
 				JOptionPane.showMessageDialog(null, "Save Success");

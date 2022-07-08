@@ -105,6 +105,7 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 			
 	}
 
+	
 	@Override
 	public List<SanPhamModel> getByName(SanPhamModel spm) {
 		List<SanPhamModel>sanPhamListSearch = new ArrayList<>();
@@ -191,6 +192,30 @@ public class SanPhamDAO_Impl implements SanPhamDAO {
 	} catch (Exception e) {
 		// TODO: handle exception
 	}
+	}
+
+	@Override
+	public void updateSanPhamSauThanhToan(SanPhamModel spm) {
+			List<SanPhamModel> listMuaHang= new ArrayList<>();
+			listMuaHang  = getByName(spm);
+			int soLuongBanDau = listMuaHang.get(0).getSoLuong();
+			
+			 String query ="update sanpham set MaSP=?,TenSp=?,SoLuong="+soLuongBanDau+"-?,Gia=?,GiamGia=?,HinhAnh=? where MaSP='"+spm.getMaSP()+"'";
+			 System.out.println(query);
+			try {
+				Connection connection = DBConnect.getConnection();
+				PreparedStatement pstmt =connection.prepareStatement(query);
+				pstmt.setString(1,spm.getMaSP());
+				pstmt.setString(2,spm.getTenSP());
+				pstmt.setInt(3,spm.getSoLuong());
+				pstmt.setInt(4,spm.getGia());
+				pstmt.setInt(5,spm.getGiamGia());
+				pstmt.setString(6,spm.getHinhAnh());
+				pstmt.executeUpdate();	
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 	}
 
 

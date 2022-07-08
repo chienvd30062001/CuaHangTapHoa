@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
 
@@ -20,7 +21,21 @@ import java.util.List;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Color;
+import java.awt.Desktop;
+
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.poi.sl.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import model.HoaDonModel;
 import model.SanPhamModel;
@@ -44,6 +59,10 @@ import java.awt.event.FocusEvent;
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.beans.PropertyChangeEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.KeyAdapter;
@@ -59,8 +78,8 @@ public class BanHang_View extends JFrame {
 	private JTextField jtfTongCong;
 	private JTextField jtfNhanTuKhach;
 	private JTextField jtfTraLaiKhach;
-	private JButton btnNewButton_2;
-	private JButton btnNewButton_3;
+	private JButton btnThanhToan;
+	private JButton btnXuatEX;
 	private JButton btnNewButton_4;
 	private static JTable tbSanPham;
 	private JLabel lblNewLabel_2;
@@ -168,38 +187,189 @@ public class BanHang_View extends JFrame {
 		jtfTraLaiKhach.setBounds(893, 466, 153, 19);
 		getContentPane().add(jtfTraLaiKhach);
 		
-		btnNewButton_2 = new JButton("Thanh to\u00E1n");
-		btnNewButton_2.addActionListener(new ActionListener() {
+		btnThanhToan = new JButton("Thanh to\u00E1n");
+		btnThanhToan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SanPhamDAO_Impl sp_DAO = new SanPhamDAO_Impl();
 				luuHoaDon();
+		// tru san pham trong database
+				truSanPham();
 				sp_DAO.deleteMuaHang();
 				showData_2(sp_DAO.getAllMuaHang());
 				
 			}
 		});
-		btnNewButton_2.setBackground(new Color(0, 255, 255));
-		btnNewButton_2.setForeground(Color.BLACK);
-		btnNewButton_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnNewButton_2.setBounds(850, 566, 94, 21);
-		getContentPane().add(btnNewButton_2);
+		btnThanhToan.setBackground(new Color(0, 255, 255));
+		btnThanhToan.setForeground(Color.BLACK);
+		btnThanhToan.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnThanhToan.setBounds(850, 566, 94, 21);
+		getContentPane().add(btnThanhToan);
 		
-		btnNewButton_3 = new JButton("Xu\u1EA5t");
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnXuatEX = new JButton("Xu\u1EA5t");
+		btnXuatEX.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)  {
 				//spDAO.deleteMuaHang();
 				//showData_2(spDAO.getAllMuaHang());
-				SanPhamDAO_Impl sp_DAO = new SanPhamDAO_Impl();
-			HoaDonDAO_Impl hd_DAO =new HoaDonDAO_Impl();				
-			     hd_DAO.deleteChiTietHoaDon();
-			     hd_DAO.deleteHoaDon();
-				sp_DAO.deleteMuaHang();
+//				SanPhamDAO_Impl sp_DAO = new SanPhamDAO_Impl();
+//			HoaDonDAO_Impl hd_DAO =new HoaDonDAO_Impl();				
+//			     hd_DAO.deleteChiTietHoaDon();
+//			     hd_DAO.deleteHoaDon();
+//				sp_DAO.deleteMuaHang();
+				
+//				try {
+//					JFileChooser jFileChooser = new JFileChooser();
+//					jFileChooser.showSaveDialog(btnXuatEX);
+//					File saveFile =  jFileChooser.getSelectedFile();
+//					if(saveFile != null) {
+//						saveFile = new File(saveFile.toString() +".xlsx");
+//						Workbook wb = new XSSFWorkbook();
+//						Sheet sheet =  wb.createSheet("maSP");
+//						
+//						 Row rowCol = sheet.createRow(0);
+//						 for(int i =0;i<tbMuaHang.getColumnCount();i++) {
+//							 Cell cell = rowCol.createCell(i);
+//							 cell.setCellValue(tbMuaHang.getColumnName(i));
+//						 }
+//						 
+//						 for(int j=0;j<tbMuaHang.getColumnCount();j++) {
+//							 Row row=sheet.createRow(j+1);
+//							 for(int k=0;k< tbMuaHang.getColumnCount();k++) {
+//								 Cell cell = row.createCell(k);
+//								 if(tbMuaHang.getValueAt(j, k) != null) {
+//									 cell.setCellValue(tbMuaHang.getValueAt(j,k).toString());
+//								 }
+//							 }
+//						 }
+//						 
+//						 FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
+//						 wb.write(out);
+//						 wb.close();
+//						 out.close();
+//						 openFile(saveFile.toString());
+//		
+//					}else {
+//						JOptionPane.showMessageDialog(null,"error");
+//					}
+//					
+//				} catch (FileNotFoundException fe) {
+//					// TODO: handle exception
+//					System.out.println(fe);
+//				}catch	(IOException ioe)
+//				{
+//					System.out.println(ioe);
+//				}
+				
+				List<SanPhamModel> listMuaHang = new ArrayList<>();
+				listMuaHang = spDAO.getAllMuaHang();
+				try {
+					XSSFWorkbook workbook = new XSSFWorkbook();
+					
+					XSSFSheet sheet = workbook.createSheet("Danh sach mua hang");
+					XSSFRow row = null;
+					Cell cell = null;
+					XSSFCellStyle centerStyle = workbook.createCellStyle();
+					centerStyle.setAlignment(HorizontalAlignment.CENTER);
+					//centerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+					//centerStyle.setsi
+
+					row = sheet.createRow(3);
+					cell = row.createCell(0,CellType.STRING);
+					cell.setCellValue("So Thu Tu");
+					sheet.autoSizeColumn(0);
+					
+					cell = row.createCell(1,CellType.STRING);
+					cell.setCellValue("Ma San Pham");
+					sheet.autoSizeColumn(1);
+					
+					cell = row.createCell(2,CellType.STRING);
+					cell.setCellValue("Ten San Pham");
+					sheet.autoSizeColumn(2);
+					
+					cell = row.createCell(3,CellType.STRING);
+					cell.setCellValue("So Luong");
+					sheet.autoSizeColumn(3);
+					
+					cell = row.createCell(4,CellType.STRING);
+					cell.setCellValue("Gia");
+					cell.setCellStyle(centerStyle);
+					
+					cell = row.createCell(5,CellType.STRING);
+					cell.setCellValue("Giam Gia");
+					sheet.autoSizeColumn(5);
+					
+					cell = row.createCell(7,CellType.STRING);
+					cell.setCellValue("Tong Cong");
+					sheet.autoSizeColumn(7);
+					
+					cell = row.createCell(8,CellType.STRING);
+					cell.setCellValue("Nhan tu khach");
+					sheet.autoSizeColumn(8);
+					
+					cell = row.createCell(9,CellType.STRING);
+					cell.setCellValue("Tra lai khach");
+					sheet.autoSizeColumn(9);
+					
+					
+					for(int i= 0;i< listMuaHang.size();i++) {
+
+						row = sheet.createRow(4+i);
+						 
+						cell = row.createCell(0,CellType.STRING);
+						cell.setCellValue(i+1);
+						cell.setCellStyle(centerStyle);
+						
+						cell = row.createCell(1,CellType.STRING);
+						cell.setCellValue(listMuaHang.get(i).getMaSP());
+						
+						cell = row.createCell(2,CellType.STRING);
+						cell.setCellValue(listMuaHang.get(i).getTenSP());
+						
+						cell = row.createCell(3,CellType.STRING);
+						cell.setCellValue(listMuaHang.get(i).getSoLuong());
+						cell.setCellStyle(centerStyle);
+						
+						cell = row.createCell(4,CellType.STRING);
+						cell.setCellValue(listMuaHang.get(i).getGia());
+						
+						
+						cell = row.createCell(5,CellType.STRING);
+						cell.setCellValue(listMuaHang.get(i).getGiamGia());
+						cell.setCellStyle(centerStyle);
+						
+						if(i == 0) {
+						cell = row.createCell(7,CellType.STRING);
+						cell.setCellValue(jtfTongCong.getText());
+								
+						cell = row.createCell(8,CellType.STRING);
+						cell.setCellValue(jtfNhanTuKhach.getText());
+									
+						cell = row.createCell(9,CellType.STRING);
+						cell.setCellValue(jtfTraLaiKhach.getText());
+						}
+					}
+					
+					
+					
+					
+					File f = new File("E:\\doan\\cuahangtaphoa\\excel\\DanhSachMuaHang.xlsx");
+					try {
+						FileOutputStream fos = new FileOutputStream(f);
+						workbook.write(fos);
+						fos.close();
+					} catch (Exception e2) {
+						// TODO: handle exception
+					}
+					
+				} catch	(Exception ex)
+				{
+					System.out.println(ex);
+				}
 			}
 		});
-		btnNewButton_3.setBackground(Color.GREEN);
-		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnNewButton_3.setBounds(954, 566, 92, 21);
-		getContentPane().add(btnNewButton_3);
+		btnXuatEX.setBackground(Color.GREEN);
+		btnXuatEX.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnXuatEX.setBounds(954, 566, 92, 21);
+		getContentPane().add(btnXuatEX);
 		
 		btnNewButton_4 = new JButton("\u0110\u0103ng xu\u1EA5t");
 		btnNewButton_4.addActionListener(new ActionListener() {
@@ -448,6 +618,23 @@ public class BanHang_View extends JFrame {
 		
 	
 	}
+	public void truSanPham() {
+		List<SanPhamModel> listMuaHang = new ArrayList<>();
+		List<SanPhamModel> listSanPham = new ArrayList<>();
+		SanPhamDAO_Impl sp_DAO = new SanPhamDAO_Impl();
+		SanPhamModel sp = new SanPhamModel();
+		SanPhamModel sp_bd = new SanPhamModel();
+		listSanPham =sp_DAO.getAll();
+		listMuaHang = sp_DAO.getAllMuaHang();
+		for(int i= 0;i<listMuaHang.size();i++) {
+			sp.setMaSP(listMuaHang.get(i).getMaSP());
+			sp.setTenSP(listMuaHang.get(i).getTenSP());
+			sp.setSoLuong(listMuaHang.get(i).getSoLuong());
+			sp.setGia(listMuaHang.get(i).getGia());
+			sp.setGiamGia(listMuaHang.get(i).getGiamGia());
+			sp_DAO.updateSanPhamSauThanhToan(sp);
+		}
+	}
 	
 	public void luuHoaDon() {
 		List<SanPhamModel> listMuaHang= new ArrayList<>();
@@ -533,4 +720,62 @@ public class BanHang_View extends JFrame {
 		jtfTongCong.setText(String.valueOf(Tong));
 		return Tong;
 	}
+	
+	
+	/////Excel
+	
+	
+	
+	public void fillDataJTable(JTable jt) {
+		String[] columns = new String[] {
+				"Mã Sản Phẩm",
+				"Tên Sản Phẩm",
+				"Số Lượng",
+				"Giá",
+				"Giảm Giá"
+		};
+		Object[][] data = new Object[][] {
+			{"gg","goi goi",30,10000,50 }
+		};
+		DefaultTableModel model = new DefaultTableModel(data, columns);
+		jt.setModel(model);
+	}
+	
+	public void openFile(String file) {
+		try {
+			File path = new File(file);
+			Desktop.getDesktop().open(path);
+			
+		} catch (IOException ioe) {
+			System.out.println(ioe);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

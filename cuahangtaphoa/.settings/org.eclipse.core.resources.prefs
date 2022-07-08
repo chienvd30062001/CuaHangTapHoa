@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/DAO/HoaDonDAO_Impl.java=UTF-8
 encoding//src/DAO/TaiKhoanDAO_Impl.java=UTF-8
+encoding//src/view/BanHang_View.java=UTF-8
 encoding//src/view/DangKy_View.java=UTF-8
 encoding//src/view/DangNhap_View.java=UTF-8
 encoding//src/view/KhoHang_View.java=UTF-8
