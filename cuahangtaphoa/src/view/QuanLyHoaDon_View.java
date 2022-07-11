@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTable;
 import javax.swing.JScrollBar;
 import java.awt.Panel;
@@ -20,6 +22,7 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 import DAO.HoaDonDAO_Impl;
+import Helper.ImageHelper;
 import model.HoaDonModel;
 import model.SanPhamModel;
 
@@ -31,6 +34,7 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class QuanLyHoaDon_View extends JFrame {
 
@@ -68,14 +72,15 @@ public class QuanLyHoaDon_View extends JFrame {
 	 * Create the frame.
 	 */
 	public QuanLyHoaDon_View() {
+		getContentPane().setBackground(new Color(242, 242, 242));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		setTitle("Quan Ly Hoa Don");
-		setSize(1050, 725);
+		setSize(1024, 666);
 		
 		JLabel lblNewLabel = new JLabel("Qu\u1EA3n L\u00FD H\u00F3a \u0110\u01A1n");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel.setBounds(48, 10, 129, 29);
+		lblNewLabel.setBounds(120, 8, 129, 29);
 		getContentPane().add(lblNewLabel);
 		
 		JScrollPane sclpan = new JScrollPane();
@@ -98,25 +103,9 @@ public class QuanLyHoaDon_View extends JFrame {
 		});
 		tbHoaDon.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
 			},
 			new String[] {
-				"Mã hợp đồng", "Tổng tiền", "Tiền khách trả", "Trả lại khách"
+				"M\u00E3 h\u1EE3p \u0111\u1ED3ng", "T\u1ED5ng ti\u1EC1n", "Ti\u1EC1n kh\u00E1ch tr\u1EA3", "Tr\u1EA3 l\u1EA1i kh\u00E1ch"
 			}
 		));
 		sclpan.setViewportView(tbHoaDon);
@@ -136,31 +125,6 @@ public class QuanLyHoaDon_View extends JFrame {
 		});
 		tbChiTietHoaDon.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
 			},
 			new String[] {
 				"M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m", "S\u1ED1 L\u01B0\u1EE3ng ", "Gi\u00E1", "Gi\u1EA3m Gi\u00E1"
@@ -268,7 +232,9 @@ public class QuanLyHoaDon_View extends JFrame {
 		//showDataChiTietHoaDon(hd_DAO.getAllChiTietHoaDon());
 		jtfTongDoanhThu.setText(String.valueOf(TongDoanhThu()));
 		
-		JButton btnNewButton = new JButton("Đăng xuất");
+		JButton btnNewButton = new JButton("Quay Lại");
+		btnNewButton.setIcon(new ImageIcon("E:\\doan\\cuahangtaphoa\\src\\img\\BanHang\\logout.png"));
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TrangChu_View tc = new TrangChu_View();
@@ -276,8 +242,8 @@ public class QuanLyHoaDon_View extends JFrame {
 				setVisible(false);
 			}
 		});
-		btnNewButton.setBackground(Color.RED);
-		btnNewButton.setBounds(941, 16, 85, 21);
+		btnNewButton.setBackground(new Color(255, 102, 102));
+		btnNewButton.setBounds(868, 10, 111, 27);
 		getContentPane().add(btnNewButton);
 		
 		JLabel jtf = new JLabel("Tổng Tiền");
@@ -291,23 +257,14 @@ public class QuanLyHoaDon_View extends JFrame {
 		jtfTongTien.setBounds(538, 510, 120, 21);
 		getContentPane().add(jtfTongTien);
 		
-		JButton btnNewButton_1_2 = new JButton("Xóa");
-		btnNewButton_1_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int index = tbHoaDon.getSelectedRow();
-				HoaDonDAO_Impl hd_DAO = new HoaDonDAO_Impl();
-				hd_DAO.deleteHoaDonBySelected((int)tbHoaDon.getValueAt(index, 0));
-				System.out.println((int)tbHoaDon.getValueAt(index, 0));
-				showDataHoaDon(hd_DAO.getAllHoaDon());
-				TongDoanhThu();
-				jtfMaHopDong.setText("");
-				jtfTongTien.setText("");
-				jtfTienKhachTra.setText("");
-				jtfTienTraKhach.setText("");
-			}
-		});
-		btnNewButton_1_2.setBounds(256, 387, 85, 21);
-		getContentPane().add(btnNewButton_1_2);
+		JLabel lblLogo = new JLabel("New label");
+		ImageIcon icon =new ImageIcon("E:\\doan\\cuahangtaphoa\\src\\img\\ManHinhChinh\\logo .png");
+		Image img = ImageHelper.resize(icon.getImage(), 50, 50);
+		ImageIcon resizeIcon = new ImageIcon(img);
+		lblLogo.setIcon(resizeIcon);
+		//lblLogo.setIcon(new ImageIcon("E:\\doan\\cuahangtaphoa\\src\\img\\ManHinhChinh\\logo .png"));
+		lblLogo.setBounds(40, 8, 50, 50);
+		getContentPane().add(lblLogo);
 		
 	}
 	
@@ -357,7 +314,7 @@ public class QuanLyHoaDon_View extends JFrame {
 		for(int i = 0 ; i<tbHoaDon.getRowCount();i++) {
 			TongDoanhThu +=(Integer.parseInt(tbHoaDon.getValueAt(i, 1).toString()));
 		}
-		jtfTongDoanhThu.setText(String.valueOf(TongDoanhThu));
+		
 		return TongDoanhThu;
 	}
 }

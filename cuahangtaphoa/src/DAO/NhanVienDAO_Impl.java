@@ -17,7 +17,7 @@ public class NhanVienDAO_Impl implements NhanVienDAO {
 	@Override
 	public List<NhanVienModel> getAll() {
 		List<NhanVienModel>nhanVienList = new ArrayList<>();
-		String query ="select * from nhanvien";
+		String query ="select * from nhanvien;";
 		try {
 			Connection connection = DBConnect.getConnection(); 
 			Statement stmt = (Statement) connection.createStatement();
@@ -26,15 +26,17 @@ public class NhanVienDAO_Impl implements NhanVienDAO {
 				NhanVienModel nv = new NhanVienModel();
 				nv.setMaNhanVien(rs.getString(1));	
 				nv.setTenNhanVien(rs.getString(2));	
-				nv.setNgaySinh(rs.getDate(3));	
+				nv.setNgaySinh((Date)rs.getDate(3));
 				nv.setQueQuan(rs.getString(4));	
 				nv.setDiaChi(rs.getString(5));	
-				nv.setThoiGianVao(rs.getDate(6));	
+				nv.setThoiGianVao((Date)rs.getDate(6));	
+				System.out.println(rs.getDate(6));
 				nhanVienList.add(nv);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		//System.out.println(nhanVienList);
 		return nhanVienList;
 	}
 	
@@ -110,8 +112,9 @@ public class NhanVienDAO_Impl implements NhanVienDAO {
 				pstmt.setDate(6, new Date(spm.getThoiGianVao().getTime()));
 				pstmt.setString(7,spm.getHinhAnh());
 				pstmt.executeUpdate();	
+				System.out.println("ham update");
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.out.println("khong update dươc ảnh");
 		}
 		
 	}

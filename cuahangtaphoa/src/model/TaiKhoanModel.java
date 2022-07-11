@@ -1,20 +1,31 @@
 package model;
 
 public class TaiKhoanModel {
-	
-	/*
-	 * public TaiKhoanModel(String tenDangNhap, String matKhau, boolean trangThai) {
-	 * this.tenDangNhap = tenDangNhap; this.matKhau = matKhau; this.trangThai =
-	 * trangThai; }
-	 * 
-	 * public TaiKhoanModel() { this.tenDangNhap = ""; this.matKhau = "";
-	 * this.trangThai = false; }
-	 */
-
 	private String tenDangNhap;
 	private String matKhau;
 	private boolean trangThai;
+	private boolean quyen;
 	
+	public TaiKhoanModel() {
+		super();
+		this.tenDangNhap = "";
+		this.matKhau = "";
+		this.trangThai = false;
+		this.quyen = false;
+	}
+	public TaiKhoanModel(String tenDangNhap, boolean quyen) {
+		this.tenDangNhap = tenDangNhap;
+		this.quyen = quyen;
+	}
+	public TaiKhoanModel(boolean quyen) {
+		this.quyen = quyen;
+	}
+	public boolean isQuyen() {
+		return quyen;
+	}
+	public void setQuyen(boolean quyen) {
+		this.quyen = quyen;
+	}
 	public String getTenDangNhap() {
 		return tenDangNhap;
 	}

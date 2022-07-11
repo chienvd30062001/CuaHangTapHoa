@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import DAO.TaiKhoanDAO_Impl;
+import Helper.ImageHelper;
 import model.TaiKhoanModel;
 
 import javax.swing.JLabel;
@@ -17,6 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
@@ -26,10 +28,13 @@ import javax.swing.JSpinner;
 import javax.swing.JEditorPane;
 import javax.swing.JTextArea;
 import java.awt.Button;
+import java.awt.Component;
+import javax.swing.JPasswordField;
 
 public class DangNhap_View extends JFrame {
 	private JTextField jtfTaiKhoan;
-	private JTextField jtfMatKhau;
+	private JPasswordField jtfMatKhau;
+	private static boolean taiKhoanDangNhap;
 
 	/**
 	 * Launch the application.
@@ -51,62 +56,28 @@ public class DangNhap_View extends JFrame {
 	 * Create the frame.
 	 */
 	public DangNhap_View() {
-		getContentPane().setBackground(SystemColor.info);
+		TaiKhoanDAO_Impl tkDAO = new TaiKhoanDAO_Impl();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 695, 343);
+		setBounds(100, 100, 1002, 695);
 		getContentPane().setLayout(null);
-		JButton btnDangKy = new JButton("Đăng Ký");
-		btnDangKy.setForeground(SystemColor.controlText);
-		btnDangKy.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		btnDangKy.setBackground(new Color(255, 228, 196));
-		btnDangKy.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DangKy_View formDangKy = new DangKy_View();
-				formDangKy.setVisible(true);
-				setVisible(false);
-			}
-		});
-		
-		JLabel lblNewLabel_4 = new JLabel("Bạn chưa có tài khoản ?");
-		lblNewLabel_4.setBackground(SystemColor.info);
-		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_4.setBounds(466, 241, 168, 19);
-		getContentPane().add(lblNewLabel_4);
-		btnDangKy.setBounds(505, 270, 85, 16);
-		getContentPane().add(btnDangKy);
-		
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 338, 303);
-		getContentPane().add(panel);
-		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setIcon(new ImageIcon(DangNhap_View.class.getResource("/img/279970076_547265366922217_7920280922150710205_n.jpg")));
-		panel.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setIcon(new ImageIcon(DangNhap_View.class.getResource("/img/4105941-lock-login-password-security-sign-in-sign-out_113932.png")));
-		lblNewLabel_1.setBounds(506, 21, 100, 93);
-		getContentPane().add(lblNewLabel_1);
+		getContentPane().setBackground(new Color(242,242,242));
 		
 		jtfTaiKhoan = new JTextField();
-		jtfTaiKhoan.setBounds(451, 124, 194, 23);
+		jtfTaiKhoan.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		jtfTaiKhoan.setBounds(670, 261, 194, 25);
 		getContentPane().add(jtfTaiKhoan);
 		jtfTaiKhoan.setColumns(10);
 		
-		jtfMatKhau = new JTextField();
-		jtfMatKhau.setBounds(451, 160, 194, 23);
-		getContentPane().add(jtfMatKhau);
-		jtfMatKhau.setColumns(10);
-		
 		JButton btnDangNhap = new JButton("\u0110\u0103ng Nh\u1EADp");
-		btnDangNhap.setBackground(new Color(255, 228, 196));
-		btnDangNhap.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnDangNhap.setBackground(new Color(148, 189, 242));
+		btnDangNhap.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnDangNhap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TaiKhoanModel taiKhoan = new TaiKhoanModel();
 				TaiKhoanDAO_Impl taiKhoanDAO = new TaiKhoanDAO_Impl();
 				TrangChu_View tc = new TrangChu_View();
+				TrangChuNhanVien_View tcnv = new TrangChuNhanVien_View();
 				String tk = jtfTaiKhoan.getText();
 				String mk = jtfMatKhau.getText();
 				
@@ -120,8 +91,20 @@ public class DangNhap_View extends JFrame {
 					if(checkDangNhap == true)
 					{
 						JOptionPane.showMessageDialog(null, "Đăng nhập thành công !","Thông báo",JOptionPane.INFORMATION_MESSAGE);
-						tc.setVisible(true);
-						setVisible(false);
+						tkDAO.hoatDongDangNhap(jtfTaiKhoan.getText());
+						taiKhoanDangNhap = tkDAO.getQuyen();
+						System.out.println(taiKhoanDangNhap);
+						if(tk.equals("admin") || taiKhoanDangNhap == true) 
+						{
+							tc.setVisible(true);
+							setVisible(false);
+						}
+						else
+						{
+							tcnv.setVisible(true);
+							setVisible(false);
+						}
+						
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu sai!","Lỗi",JOptionPane.ERROR_MESSAGE);
@@ -130,17 +113,35 @@ public class DangNhap_View extends JFrame {
 				
 			}
 	});
-		btnDangNhap.setBounds(476, 201, 145, 30);
+		btnDangNhap.setBounds(652, 377, 183, 30);
 		getContentPane().add(btnDangNhap);
 		
 		JLabel lblNewLabel_2 = new JLabel("T\u00E0i Kho\u1EA3n");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_2.setBounds(379, 124, 71, 16);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_2.setBounds(553, 261, 89, 25);
 		getContentPane().add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("M\u1EADt Kh\u1EA9u");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_3.setBounds(379, 165, 71, 16);
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_3.setBounds(553, 305, 89, 25);
 		getContentPane().add(lblNewLabel_3);
+		
+		JLabel lblAnhBia = new JLabel("");
+		lblAnhBia.setAlignmentX(0.5f);
+		ImageIcon icon =new ImageIcon("E:\\doan\\cuahangtaphoa\\src\\img\\login\\617899945bc0c8bef34edefba03ca8bd.png");
+		Image img = ImageHelper.resize(icon.getImage(), 440, 660);
+		ImageIcon resizeIcon = new ImageIcon(img);
+		lblAnhBia.setIcon(resizeIcon);
+		lblAnhBia.setBounds(0, 0, 440, 660);
+		getContentPane().add(lblAnhBia);
+		
+		jtfMatKhau = new JPasswordField();
+		jtfMatKhau.setBounds(670, 308, 194, 25);
+		getContentPane().add(jtfMatKhau);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon("E:\\doan\\cuahangtaphoa\\src\\img\\login\\user (2).png"));
+		lblNewLabel.setBounds(708, 127, 111, 81);
+		getContentPane().add(lblNewLabel);
 	}
 }
